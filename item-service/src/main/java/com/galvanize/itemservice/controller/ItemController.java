@@ -51,7 +51,7 @@ public class ItemController {
     }
 
 
-    @GetMapping("/get/")
+    @GetMapping("/get")
     public Iterable<Item> getAllItems() {
         LOGGER.info("get all Items");
         return itemService.getAllItems();

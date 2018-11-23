@@ -217,7 +217,7 @@ public class ItemControllerTest {
         when(service.getAllItems()).thenReturn(mockItems);
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/object/get/")
+                .get("/object/get")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
