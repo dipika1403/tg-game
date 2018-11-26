@@ -28,12 +28,12 @@ public class HeroEntity {
     private int heroDex;
     @JsonProperty(value = "con")
     private int heroCon;
-    private Long location;
+    private RoomEntity location;
     private List<ItemEntity> inventory;
     private int hitPoints;
 
     @Builder
-    public HeroEntity(Long id, String name, Long location,
+    public HeroEntity(Long id, String name, RoomEntity location,
                       ClassCharacter classCharacter, int heroInt, int heroWis,
                       int heroCha, int heroStr, int heroDex, int heroCon,
                       List<ItemEntity> inventory, int hitPoints) {

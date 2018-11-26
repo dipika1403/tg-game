@@ -11,4 +11,5 @@ rootProject.name = 'tg-game'
 include 'item-service'
 include 'character-service'
 include 'entities-module'
+include 'room-service'
 

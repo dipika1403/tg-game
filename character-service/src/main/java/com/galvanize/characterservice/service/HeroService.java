@@ -7,15 +7,22 @@ import com.galvanize.characterservice.exception.HeroNotFoundException;
 import com.galvanize.characterservice.repository.HeroRepository;
 import com.galvanize.tggame.entity.ClassCharacter;
 import com.galvanize.tggame.entity.HeroEntity;
+import com.galvanize.tggame.entity.RoomEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
 public class HeroService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeroService.class);
 
     private final HeroRepository heroRepository;
 
@@ -75,6 +82,26 @@ public class HeroService {
     }
 
     private HeroEntity createHeroEntity(Hero hero) {
+        Long location = hero.getLocation();
+        RoomEntity roomEntity = null;
+        if (location != null) {
+
+            String REST_URI
+                    = "http://localhost:8183/room/get/";
+
+            Client client = ClientBuilder.newClient();
+
+            try {
+                roomEntity = client
+                        .target(REST_URI)
+                        .path(String.valueOf(location))
+                        .request(MediaType.APPLICATION_JSON)
+                        .get(RoomEntity.class);
+            } catch (Exception e) {
+                LOGGER.error("Location not found by id: {}", location);
+            }
+        }
+
         return HeroEntity.builder()
                 .id(hero.getId())
                 .name(hero.getName())
@@ -87,8 +114,9 @@ public class HeroService {
                 .heroWis(hero.getHeroWis())
                 .inventory(new ArrayList<>())
                 .hitPoints(hero.getHitPoints())
-                .location(hero.getLocation())
+                .location(roomEntity)
                 .build();
+
     }
 
     private List<Integer> genSkillList() {

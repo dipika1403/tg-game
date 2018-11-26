@@ -14,7 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "hero")
-@Inheritance(strategy = InheritanceType.JOINED)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hero {
 
